@@ -1,0 +1,26 @@
+{
+  "header": {
+    "home": "Home",
+    "spotify": "Spotify",
+    "philips": "Philips HUE"
+  },
+  "spotify": {
+    "connecting": "Connecting to Spotify...",
+    "noPlayer": "No music is playing at the moment",
+    "clientIdModal": {
+      "title": "Spotify Client Id",
+      "description": "Please enter the clientId generated from the Spotify API:",
+      "connect": "Connect",
+      "commonError": "An unknown error occured."
+    }
+  },
+  "philips": {
+    "ipModal": {
+      "title": "IP Address",
+      "description": "Please enter your HUE bridge IP address (https://discovery.meethue.com/):",
+      "connect": "Connect",
+      "commonError": "An unknown error occured.",
+      "pressRequiredError": "Press the bridge button before connect."
+    }
+  }
+}

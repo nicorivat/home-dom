@@ -1,0 +1,31 @@
+<ng-container *ngIf="spotifyConfig$ | async as spotifyConfig">
+  <div
+    *ngIf="spotifyConfig?.clientId; else noClientId"
+    fxLayout="column"
+    fxFlex
+  >
+    <div
+      *ngIf="!spotifyConfig?.token; else withToken"
+      fxLayout="row"
+      fxFlex
+      fxLayoutAlign="center center"
+    >
+      <h3>{{ translatePath + 'connecting' | translate }}</h3>
+    </div>
+    <ng-template #withToken>
+      <div fxLayout="row" fxFlex fxLayoutAlign="center center">
+        <h3 *ngIf="!(currentPlayer$ | async); else musicPlaying">
+          {{ translatePath + 'noPlayer' | translate }}
+        </h3>
+        <ng-template #musicPlaying>
+          <hd-spotify-player fxFlexFill></hd-spotify-player>
+        </ng-template>
+      </div>
+    </ng-template>
+  </div>
+  <ng-template #noClientId>
+    <hd-spotify-clientId-modal
+      translatePath="{{ translatePath }}clientIdModal"
+    ></hd-spotify-clientId-modal>
+  </ng-template>
+</ng-container>

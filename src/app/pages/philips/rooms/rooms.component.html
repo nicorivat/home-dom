@@ -1,0 +1,15 @@
+<ng-container *ngIf="rooms$ | async as rooms">
+  <div
+    *ngIf="rooms.length > 0; else noRoom"
+    class="list-container"
+    fxFill
+    fxLayout="row wrap"
+  >
+    <hd-switcher
+      *ngFor="let room of rooms"
+      fxFlex="33%"
+      [room]="room"
+    ></hd-switcher>
+  </div>
+  <ng-template #noRoom></ng-template>
+</ng-container>

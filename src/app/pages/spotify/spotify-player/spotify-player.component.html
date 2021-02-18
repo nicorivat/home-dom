@@ -1,0 +1,31 @@
+<ng-container *ngIf="currentPlayer$ | async as currentPlayer">
+  <div class="track" fxLayout="column" fxLayoutGap="16px">
+    <div fxLayout="row" fxFlex fxLayoutAlign="end center">
+      <p>{{ currentPlayer?.device?.name }}</p>
+    </div>
+    <div fxFlex fxLayoutAlign="center center">
+      <img
+        [src]="getAlbumImage(currentPlayer?.item?.album)"
+        height="20%"
+        width="20%"
+      />
+    </div>
+    <div fxFlex fxLayoutAlign="center center">
+      <div fxLayout="column" fxLayoutGap="4px">
+        <p>{{ currentPlayer?.item?.name }}</p>
+        <p>
+          {{ getArtistName(currentPlayer?.item) }}
+        </p>
+      </div>
+    </div>
+    <div fxFlex fxLayoutAlign="space-around center">
+      <fa-icon [icon]="prevIcon" size="2x" (click)="previousTrack()"></fa-icon>
+      <fa-icon
+        [icon]="currentPlayer?.is_playing ? pauseIcon : playIcon"
+        size="2x"
+        (click)="togglePlay()"
+      ></fa-icon>
+      <fa-icon [icon]="nextIcon" size="2x" (click)="nextTrack()"></fa-icon>
+    </div>
+  </div>
+</ng-container>

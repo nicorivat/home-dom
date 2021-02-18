@@ -1,0 +1,17 @@
+<ng-template #ipModal let-modal>
+  <div class="modal-header" fxLayout="row" fxFill fxLayoutAlign="center center">
+    <h4 class="modal-title">{{ translatePath + ".title" | translate }}</h4>
+  </div>
+  <div class="modal-body" fxLayout="column" fxLayoutGap="8px">
+    <p>{{ translatePath + ".description" | translate }}</p>
+    <input type="text" class="form-control" [(ngModel)]="inputIP" />
+    <p *ngIf="errorPath" class="error">
+      {{ translatePath + errorPath | translate }}
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="connect()">
+      {{ translatePath + ".connect" | translate }}
+    </button>
+  </div>
+</ng-template>

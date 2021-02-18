@@ -1,0 +1,10 @@
+.header-container {
+  height: 3em;
+  border-bottom: 1px solid rgba(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0 12px;
+
+  .route-name {
+    font-size: 1.5rem;
+  }
+}

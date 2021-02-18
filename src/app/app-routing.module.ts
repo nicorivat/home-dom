@@ -5,7 +5,17 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () =>
-      import('./home/home.module').then((m) => m.HomePageModule),
+      import('./pages/home/home.module').then((m) => m.HomePageModule),
+  },
+  {
+    path: 'spotify',
+    loadChildren: () =>
+      import('./pages/spotify/spotify.module').then((m) => m.SpotifyPageModule),
+  },
+  {
+    path: 'philips',
+    loadChildren: () =>
+      import('./pages/philips/philips.module').then((m) => m.PhilipsPageModule),
   },
   {
     path: '**',
