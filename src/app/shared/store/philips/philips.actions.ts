@@ -14,9 +14,19 @@ export namespace PhilipsActions {
     static readonly type = '[PHILIPS - GET LIGHTS] Get lights';
   }
 
+  export class SetCurrentRoom {
+    static readonly type = '[PHILIPS - SET CURRENT ROOM] Set current room';
+    constructor(public readonly currentRoom: PhilipsRoom) {}
+  }
+
   export class ToggleRoom {
     static readonly type = '[PHILIPS - TOGGLE ROOM] Toggle room';
-    constructor(public readonly room: PhilipsRoom) {}
+    constructor(public readonly key: string, public readonly on: boolean) {}
+  }
+
+  export class ToggleLight {
+    static readonly type = '[PHILIPS - TOGGLE LIGHT] Toggle light';
+    constructor(public readonly key: string, public readonly on: boolean) {}
   }
 
   export class APIError {

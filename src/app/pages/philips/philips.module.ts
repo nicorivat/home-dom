@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { RouterModule } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
 import { PhilipsService, PhilipsState } from './../../shared';
-import { IPModalModule } from './ip-modal';
+import { IPModalModule, RoomsModule } from './components';
+import { PhilipsRoutingModule } from './philips-routing.module';
 import { PhilipsPageComponent } from './philips.page';
-import { RoomsModule } from './rooms';
 
 @NgModule({
   declarations: [PhilipsPageComponent],
@@ -15,8 +14,8 @@ import { RoomsModule } from './rooms';
     FlexLayoutModule,
     IPModalModule,
     RoomsModule,
+    PhilipsRoutingModule,
     NgxsModule.forFeature([PhilipsState]),
-    RouterModule.forChild([{ path: '', component: PhilipsPageComponent }]),
   ],
   providers: [PhilipsService],
   exports: [PhilipsPageComponent],

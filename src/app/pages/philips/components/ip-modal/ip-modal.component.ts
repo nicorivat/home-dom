@@ -13,7 +13,7 @@ import {
   DestroyableComponent,
   PhilipsActions,
   PhilipsState
-} from '../../../shared';
+} from '../../../../shared';
 
 @Component({
   selector: 'hd-ip-modal',

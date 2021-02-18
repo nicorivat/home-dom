@@ -19,13 +19,33 @@
       </div>
     </div>
     <div fxFlex fxLayoutAlign="space-around center">
-      <fa-icon [icon]="prevIcon" size="2x" (click)="previousTrack()"></fa-icon>
-      <fa-icon
-        [icon]="currentPlayer?.is_playing ? pauseIcon : playIcon"
-        size="2x"
+      <div
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        fxFlex="33%"
+        (click)="previousTrack()"
+      >
+        <fa-icon [icon]="prevIcon" size="2x"></fa-icon>
+      </div>
+      <div
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        fxFlex="33%"
         (click)="togglePlay()"
-      ></fa-icon>
-      <fa-icon [icon]="nextIcon" size="2x" (click)="nextTrack()"></fa-icon>
+      >
+        <fa-icon
+          [icon]="currentPlayer?.is_playing ? pauseIcon : playIcon"
+          size="2x"
+        ></fa-icon>
+      </div>
+      <div
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        fxFlex="33%"
+        (click)="nextTrack()"
+      >
+        <fa-icon [icon]="nextIcon" size="2x"></fa-icon>
+      </div>
     </div>
   </div>
 </ng-container>

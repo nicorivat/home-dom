@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PhilipsAPIError, PhilipsCreateUser, PhilipsRoom } from './../models';
+import { PhilipsLight } from './../models/philips/philips-api.interface';
 
 @Injectable()
 export class PhilipsService {
@@ -31,6 +32,17 @@ export class PhilipsService {
     >;
   }
 
+  getLights(
+    bridgeIP: string,
+    token: string
+  ): Promise<{ [key: string]: PhilipsLight } | PhilipsAPIError[]> {
+    return this.httpClient
+      .get(`${this.constructBridgeApi(bridgeIP)}/${token}/lights`)
+      .toPromise() as Promise<
+      { [key: string]: PhilipsLight } | PhilipsAPIError[]
+    >;
+  }
+
   toggleRoom(
     bridgeIP: string,
     token: string,
@@ -42,6 +54,19 @@ export class PhilipsService {
         `${this.constructBridgeApi(bridgeIP)}/${token}/groups/${key}/action`,
         { on }
       )
+      .toPromise() as Promise<unknown | PhilipsAPIError>;
+  }
+
+  toggleLight(
+    bridgeIP: string,
+    token: string,
+    key: string,
+    on: boolean
+  ): Promise<unknown | PhilipsAPIError> {
+    return this.httpClient
+      .put(`${this.constructBridgeApi(bridgeIP)}/${token}/lights/${key}/state`, {
+        on,
+      })
       .toPromise() as Promise<unknown | PhilipsAPIError>;
   }
 }

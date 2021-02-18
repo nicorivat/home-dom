@@ -55,7 +55,7 @@ export class SpotifyPageComponent
           if (params.get('access_token')) {
             this.store.dispatch(
               new ConfigsActions.SetSpotifyConfig({
-                clientId: spotifyConfig?.tmpClientId,
+                clientId: spotifyConfig?.clientId || spotifyConfig?.tmpClientId,
                 tmpClientId: undefined,
                 token: {
                   access_token: params.get('access_token') as string,

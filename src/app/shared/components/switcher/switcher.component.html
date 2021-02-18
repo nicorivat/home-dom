@@ -1,7 +1,19 @@
-<div fxLayout="column" fxFill fxLayoutAlign="space-between center" fxLayoutGap="6px">
-  <div fxLayout="column" fxLayoutAlign="center center">
+<div
+  fxLayout="column"
+  fxFill
+  fxLayoutAlign="space-between center"
+>
+  <div
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    (click)="iconClicked.emit()"
+  >
     <fa-icon [icon]="isRoom ? roomIcon : lightIcon" size="2x"></fa-icon>
     <p>{{ room?.name || light?.name }}</p>
   </div>
-  <ui-switch [checked]="!!isChecked()" (click)="toggleSwitch()"></ui-switch>
+  <ui-switch
+    class="toggle"
+    [checked]="!!isChecked()"
+    (click)="toggleSwitch()"
+  ></ui-switch>
 </div>

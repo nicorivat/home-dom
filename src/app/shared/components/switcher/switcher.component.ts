@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons';
 import { faBox, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngxs/store';
@@ -16,6 +16,9 @@ export class SwitcherComponent implements OnInit {
 
   @Input()
   light!: PhilipsLight;
+
+  @Output()
+  iconClicked: EventEmitter<void> = new EventEmitter<void>();
 
   isRoom: boolean = false;
   roomIcon: IconDefinition = faBox;
@@ -35,9 +38,13 @@ export class SwitcherComponent implements OnInit {
   }
 
   toggleSwitch() {
-    if (this.isRoom) {
-      this.store.dispatch(new PhilipsActions.ToggleRoom(this.room));
-    }
-    // this.store.dispatch(new PhilipsActions.ToggleLight(this.light));
+    if (this.isRoom)
+      this.store.dispatch(
+        new PhilipsActions.ToggleRoom(this.room.key, !this.room.state.any_on)
+      );
+    else
+      this.store.dispatch(
+        new PhilipsActions.ToggleLight(this.light.key, !this.light.state.on)
+      );
   }
 }

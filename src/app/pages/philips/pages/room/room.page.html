@@ -1,0 +1,17 @@
+<div fxLayout="column" fxLayoutAlign="stretch center">
+  <ng-container *ngIf="lights$ | async as lights">
+    <div
+      *ngIf="lights.length > 0; else noRoom"
+      class="list-container"
+      fxFill
+      fxLayout="row wrap"
+    >
+      <hd-switcher
+        *ngFor="let light of lights"
+        fxFlex="33%"
+        [light]="light"
+      ></hd-switcher>
+    </div>
+    <ng-template #noRoom></ng-template>
+  </ng-container>
+</div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import {
@@ -6,7 +7,7 @@ import {
   PhilipsActions,
   PhilipsRoom,
   PhilipsState
-} from '../../../shared';
+} from '../../../../shared';
 
 @Component({
   selector: 'hd-rooms',
@@ -19,11 +20,11 @@ export class RoomsComponent extends DestroyableComponent implements OnInit {
 
   private roomsInterval!: NodeJS.Timeout;
 
-  constructor(private readonly store: Store) {
+  constructor(private readonly store: Store, private readonly router: Router) {
     super();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.dispatch(new PhilipsActions.GetRooms());
     this.roomsInterval = setInterval(
       () => this.store.dispatch(new PhilipsActions.GetRooms()),
@@ -31,7 +32,12 @@ export class RoomsComponent extends DestroyableComponent implements OnInit {
     );
   }
 
-  OnDestroy() {
+  navigateToRoom(room: PhilipsRoom): void {
+    this.store.dispatch(new PhilipsActions.SetCurrentRoom(room));
+    this.router.navigate(['philips/room']);
+  }
+
+  OnDestroy(): void {
     clearInterval(this.roomsInterval);
   }
 }

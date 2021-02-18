@@ -5,6 +5,7 @@ import { CommonState } from '../state.utils';
 import {
   PhilipsAPIError,
   PhilipsCreateUser,
+  PhilipsLight,
   PhilipsRoom,
   PhilipsStateModel
 } from './../../models';
@@ -24,7 +25,7 @@ export class PhilipsState extends CommonState {
 
   @Action(PhilipsActions.SetBridgeIP)
   async setBridgeIP(
-    ctx: StateContext<PhilipsStateModel>,
+    { setState }: StateContext<PhilipsStateModel>,
     { bridgeIP }: PhilipsActions.SetBridgeIP
   ): Promise<void> {
     try {
@@ -32,7 +33,7 @@ export class PhilipsState extends CommonState {
         | PhilipsCreateUser[]
         | PhilipsAPIError[] = await this.philipsService.createUser(bridgeIP);
       if ((user as PhilipsCreateUser[])[0]?.success) {
-        ctx.setState({
+        setState({
           bridgeIP,
           token: (user as PhilipsCreateUser[])[0]?.success?.username,
         });
@@ -46,9 +47,12 @@ export class PhilipsState extends CommonState {
   }
 
   @Action(PhilipsActions.GetRooms)
-  async getRooms(ctx: StateContext<PhilipsStateModel>): Promise<void> {
+  async getRooms({
+    getState,
+    setState,
+  }: StateContext<PhilipsStateModel>): Promise<void> {
     try {
-      const { bridgeIP, token } = ctx.getState();
+      const { bridgeIP, token } = getState();
       if (!bridgeIP || !token) {
         this.store.dispatch(new PhilipsActions.APIError());
         return;
@@ -67,14 +71,12 @@ export class PhilipsState extends CommonState {
                 key
               ] as PhilipsRoom),
               key,
-              action: undefined,
             }))
             ?.filter((r) => r.type === 'Room') || [];
-        if (JSON.stringify(_rooms) !== JSON.stringify(ctx.getState()?.rooms))
-          ctx.setState({
-            ...ctx.getState(),
-            rooms: _rooms,
-          });
+        setState({
+          ...getState(),
+          rooms: _rooms,
+        });
       } else {
         this.store.dispatch(
           new PhilipsActions.APIError(rooms as PhilipsAPIError[])
@@ -86,15 +88,65 @@ export class PhilipsState extends CommonState {
   }
 
   @Action(PhilipsActions.GetLights)
-  async getLights(ctx: StateContext<PhilipsStateModel>): Promise<void> {}
+  async getLights({
+    getState,
+    setState,
+  }: StateContext<PhilipsStateModel>): Promise<void> {
+    try {
+      const { bridgeIP, token } = getState();
+      if (!bridgeIP || !token) {
+        this.store.dispatch(new PhilipsActions.APIError());
+        return;
+      }
+      const lights:
+        | { [key: string]: PhilipsLight }
+        | PhilipsAPIError[] = await this.philipsService.getLights(
+        bridgeIP,
+        token
+      );
+      if (!(lights as PhilipsAPIError[])?.length) {
+        const _lights =
+          Object.keys(lights)
+            ?.map((key: string) => ({
+              ...((lights as { [key: string]: PhilipsLight })[
+                key
+              ] as PhilipsLight),
+              key,
+            }))
+            ?.filter((l) => getState()?.currentRoom?.lights?.includes(l.key)) ||
+          [];
+        setState({
+          ...getState(),
+          lights: _lights,
+        });
+      } else {
+        this.store.dispatch(
+          new PhilipsActions.APIError(lights as PhilipsAPIError[])
+        );
+      }
+    } catch (e) {
+      this.store.dispatch(new PhilipsActions.APIError(e as PhilipsAPIError[]));
+    }
+  }
+
+  @Action(PhilipsActions.SetCurrentRoom)
+  setCurrentRoom(
+    { getState, setState }: StateContext<PhilipsStateModel>,
+    { currentRoom }: PhilipsActions.SetCurrentRoom
+  ): void {
+    setState({
+      ...getState(),
+      currentRoom,
+    });
+  }
 
   @Action(PhilipsActions.ToggleRoom)
   async toggleRoom(
-    ctx: StateContext<PhilipsStateModel>,
-    { room }: PhilipsActions.ToggleRoom
+    { getState }: StateContext<PhilipsStateModel>,
+    { key, on }: PhilipsActions.ToggleRoom
   ): Promise<void> {
     try {
-      const { bridgeIP, token } = ctx.getState();
+      const { bridgeIP, token } = getState();
       if (!bridgeIP || !token) {
         this.store.dispatch(new PhilipsActions.APIError());
         return;
@@ -104,8 +156,40 @@ export class PhilipsState extends CommonState {
         | PhilipsAPIError[] = await this.philipsService.toggleRoom(
         bridgeIP,
         token,
-        room.key,
-        !room.state.any_on
+        key,
+        on
+      );
+      if (
+        (response as PhilipsAPIError[])?.length > 0 &&
+        (response as PhilipsAPIError[])[0]?.error
+      ) {
+        this.store.dispatch(
+          new PhilipsActions.APIError(response as PhilipsAPIError[])
+        );
+      }
+    } catch (e) {
+      this.store.dispatch(new PhilipsActions.APIError(e as PhilipsAPIError[]));
+    }
+  }
+
+  @Action(PhilipsActions.ToggleLight)
+  async toggleLight(
+    { getState }: StateContext<PhilipsStateModel>,
+    { key, on }: PhilipsActions.ToggleLight
+  ): Promise<void> {
+    try {
+      const { bridgeIP, token } = getState();
+      if (!bridgeIP || !token) {
+        this.store.dispatch(new PhilipsActions.APIError());
+        return;
+      }
+      const response:
+        | unknown
+        | PhilipsAPIError[] = await this.philipsService.toggleLight(
+        bridgeIP,
+        token,
+        key,
+        on
       );
       if (
         (response as PhilipsAPIError[])?.length > 0 &&

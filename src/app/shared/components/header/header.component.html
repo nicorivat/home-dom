@@ -1,12 +1,11 @@
 <div class="header-container">
   <div fxLayout="column" fxFlex>
     <div fxLayout="row" fxFlex fxLayoutAlign="center center">
-      <div fxFlex="20%">
+      <div fxFlex="20%" (click)="backHome()">
         <fa-icon
           *ngIf="currentRoute !== 'home'"
           [icon]="backIcon"
           size="lg"
-          (click)="backHome()"
         ></fa-icon>
       </div>
       <p

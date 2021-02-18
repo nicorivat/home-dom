@@ -1,6 +1,8 @@
-import { PhilipsRoom } from './philips-api.interface';
+import { PhilipsLight, PhilipsRoom } from './philips-api.interface';
 export interface PhilipsStateModel {
   bridgeIP?: string;
   token?: string;
-  rooms?: Partial<PhilipsRoom>[];
+  rooms?: PhilipsRoom[];
+  currentRoom?: PhilipsRoom;
+  lights?: PhilipsLight[];
 }

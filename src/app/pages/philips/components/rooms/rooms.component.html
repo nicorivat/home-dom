@@ -9,6 +9,7 @@
       *ngFor="let room of rooms"
       fxFlex="33%"
       [room]="room"
+      (iconClicked)="navigateToRoom(room)"
     ></hd-switcher>
   </div>
   <ng-template #noRoom></ng-template>
