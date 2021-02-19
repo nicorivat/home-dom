@@ -20,7 +20,9 @@ export class HeaderComponent extends DestroyableComponent implements OnInit {
   currentRoute!: string;
   backIcon: IconDefinition = faChevronLeft;
   configIcon: IconDefinition = faCog;
+  time: Date = new Date();
 
+  private timerInterval!: NodeJS.Timeout;
   private urlWithoutParams?: string[];
 
   constructor(
@@ -32,6 +34,7 @@ export class HeaderComponent extends DestroyableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.timerInterval = setInterval(() => (this.time = new Date()), 1000);
     this.router.events
       .pipe(
         takeUntil(this.destroy$),
@@ -63,5 +66,9 @@ export class HeaderComponent extends DestroyableComponent implements OnInit {
 
   showConfigModal(): void {
     this.store.dispatch(new ConfigsActions.ShowConfigModal());
+  }
+
+  OnDestroy(): void {
+    clearInterval(this.timerInterval);
   }
 }

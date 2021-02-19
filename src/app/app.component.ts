@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -14,7 +15,12 @@ export class AppComponent extends DestroyableComponent implements OnInit {
   @Select(ConfigsState.getState(['language']))
   language$!: Observable<string>;
 
-  constructor(private readonly translateService: TranslateService) {
+  private timeoutInterval!: NodeJS.Timeout;
+
+  constructor(
+    private readonly translateService: TranslateService,
+    private readonly router: Router
+  ) {
     super();
   }
 
@@ -25,5 +31,13 @@ export class AppComponent extends DestroyableComponent implements OnInit {
         tap((language) => this.translateService.use(language))
       )
       .subscribe();
+  }
+
+  resetTimeout() {
+    if (this.timeoutInterval) clearInterval(this.timeoutInterval);
+    // Redirect home after 5 minutes if no user input
+    this.timeoutInterval = setInterval(() => {
+      if (!this.router.url.includes('home')) this.router.navigate(['/home']);
+    }, 300000);
   }
 }

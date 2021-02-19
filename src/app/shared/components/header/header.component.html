@@ -3,10 +3,13 @@
     <div fxLayout="row" fxFlex fxLayoutAlign="center center">
       <div fxFlex="20%" (click)="backHome()">
         <fa-icon
-          *ngIf="currentRoute !== 'home'"
+          *ngIf="currentRoute !== 'home'; else clock"
           [icon]="backIcon"
           size="lg"
         ></fa-icon>
+        <ng-template #clock>
+          <p>{{ time | date: "HH:mm:ss" }}</p>
+        </ng-template>
       </div>
       <p
         *ngIf="currentRoute"
@@ -16,11 +19,13 @@
       >
         {{ translatePath + currentRoute | translate }}
       </p>
-      <div fxFlex="20%" fxLayout="row" fxLayoutAlign="end center" (click)="showConfigModal()">
-        <fa-icon
-          [icon]="configIcon"
-          size="lg"
-        ></fa-icon>
+      <div
+        fxFlex="20%"
+        fxLayout="row"
+        fxLayoutAlign="end center"
+        (click)="showConfigModal()"
+      >
+        <fa-icon [icon]="configIcon" size="lg"></fa-icon>
       </div>
     </div>
   </div>
