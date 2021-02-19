@@ -12,6 +12,10 @@
         [light]="light"
       ></hd-switcher>
     </div>
-    <ng-template #noRoom></ng-template>
+    <ng-template #noRoom>
+      <div fxFill fxLayout="column" fxLayoutAlign="center center">
+        <p>{{ translatePath + "noRoom" | translate }}</p>
+      </div>  
+    </ng-template>
   </ng-container>
 </div>

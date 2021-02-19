@@ -8,22 +8,34 @@ import { ConfigsActions } from './configs.actions';
   name: 'configs',
   defaults: {
     spotify: {},
+    language: 'gb',
   },
 })
 @Injectable()
 export class ConfigsState extends CommonState {
   @Action(ConfigsActions.SetSpotifyConfig)
   setSpotifyConfig(
-    ctx: StateContext<ConfigsStateModel>,
+    { getState, setState }: StateContext<ConfigsStateModel>,
     { spotify }: ConfigsActions.SetSpotifyConfig
   ): void {
-    const state = this.copyState(ctx.getState());
-    ctx.setState({
+    const state = this.copyState(getState());
+    setState({
       ...state,
       spotify: {
         ...state.spotify,
         ...spotify,
       },
+    });
+  }
+
+  @Action(ConfigsActions.SetLanguage)
+  setLanguage(
+    { getState, setState }: StateContext<ConfigsStateModel>,
+    { language }: ConfigsActions.SetLanguage
+  ): void {
+    setState({
+      ...getState(),
+      language,
     });
   }
 }

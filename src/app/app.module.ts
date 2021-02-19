@@ -12,7 +12,12 @@ import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ConfigsState, HeaderModule, PhilipsState } from './shared';
+import {
+  ConfigsModalModule,
+  ConfigsState,
+  HeaderModule,
+  PhilipsState
+} from './shared';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -27,13 +32,14 @@ export function createTranslateLoader(http: HttpClient) {
     HeaderModule,
     HttpClientModule,
     FlexLayoutModule,
+    ConfigsModalModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
         deps: [HttpClient],
       },
-      defaultLanguage: 'en',
+      defaultLanguage: 'gb',
     }),
     NgxsModule.forRoot([ConfigsState]),
     NgxsReduxDevtoolsPluginModule.forRoot(),

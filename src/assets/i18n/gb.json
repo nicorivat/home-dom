@@ -11,6 +11,7 @@
       "title": "Spotify Client Id",
       "description": "Please enter the clientId generated from the Spotify API:",
       "connect": "Connect",
+      "cancel": "Cancel",
       "commonError": "An unknown error occured."
     }
   },
@@ -19,8 +20,19 @@
       "title": "IP Address",
       "description": "Please enter your HUE bridge IP address (https://discovery.meethue.com/):",
       "connect": "Connect",
+      "cancel": "Cancel",
       "commonError": "An unknown error occured.",
       "pressRequiredError": "Press the bridge button before connect."
+    },
+    "noRoom": "No room available",
+    "room": {
+      "noLight": "No light linked to this room"
+    }
+  },
+  "config": {
+    "title": "Settings",
+    "language": {
+      "title": "Language:"
     }
   }
 }

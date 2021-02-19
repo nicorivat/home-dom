@@ -5,12 +5,13 @@ import {
   Input,
   ViewChild
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Actions, ofActionDispatched, Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import {
-  DestroyableComponent,
+  ModalAbstract,
   PhilipsActions,
   PhilipsState
 } from '../../../../shared';
@@ -20,10 +21,9 @@ import {
   templateUrl: './ip-modal.component.html',
   styleUrls: ['./ip-modal.component.scss'],
 })
-export class IPModalComponent
-  extends DestroyableComponent
-  implements AfterViewInit {
-  @ViewChild('ipModal') ipModal?: ElementRef;
+export class IPModalComponent extends ModalAbstract implements AfterViewInit {
+  @ViewChild('ipModal')
+  protected modal?: ElementRef;
 
   @Select(PhilipsState.getState(['bridgeIP']))
   bridgeIP$?: Observable<string>;
@@ -35,11 +35,12 @@ export class IPModalComponent
   errorPath?: string;
 
   constructor(
-    private readonly modalService: NgbModal,
+    protected readonly modalService: NgbModal,
     private readonly store: Store,
-    private readonly actions$: Actions
+    private readonly actions$: Actions,
+    private readonly router: Router
   ) {
-    super();
+    super(modalService);
   }
 
   ngAfterViewInit(): void {
@@ -69,16 +70,13 @@ export class IPModalComponent
       .subscribe();
   }
 
-  connect() {
+  connect(): void {
     if (this.inputIP)
       this.store.dispatch(new PhilipsActions.SetBridgeIP(this.inputIP));
   }
 
-  openModal(): void {
-    this.modalService.open(this.ipModal, { centered: true });
-  }
-
-  closeModal(): void {
-    this.modalService.dismissAll();
+  cancel() {
+    this.closeModal();
+    this.router.navigate(['/home']);
   }
 }

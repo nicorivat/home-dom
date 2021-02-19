@@ -1,0 +1,29 @@
+<ng-template #configModal let-modal>
+  <div class="modal-header" fxLayout="row" fxFill fxLayoutAlign="center center">
+    <h4 class="modal-title">{{ translatePath + "title" | translate }}</h4>
+    <button
+      type="button"
+      class="close close-btn"
+      aria-label="Close"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" fxLayout="column" fxLayoutGap="12px">
+    <ng-container *ngIf="language$ | async as currentLanguage">
+      <div fxLayout="column" fxLayoutAlign="center stretch" fxLayoutGap="8px">
+        <p>{{ translatePath + "language.title" | translate }}</p>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="24px">
+          <img
+            *ngFor="let lang of langs"
+            class="flag"
+            [ngClass]="{ 'selected': currentLanguage === lang }"
+            src="{{ iconUrl }}/{{ lang }}/flat/48.png"
+            (click)="changeLang(lang)"
+          />
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>

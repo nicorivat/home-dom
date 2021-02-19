@@ -1,5 +1,6 @@
 export interface ConfigsStateModel {
   spotify?: SpotifyConfig;
+  language?: string;
 }
 
 export interface SpotifyConfig {

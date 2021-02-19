@@ -1,0 +1,38 @@
+{
+  "header": {
+    "home": "Accueil",
+    "spotify": "Spotify",
+    "philips": "Philips HUE"
+  },
+  "spotify": {
+    "connecting": "Connexion à Spotify...",
+    "noPlayer": "Aucune musique n'est joué pour le moment",
+    "clientIdModal": {
+      "title": "Spotify Client Id",
+      "description": "Veuillez renseigner le clienId généré depuis Spotify API:",
+      "connect": "Se connecter",
+      "cancel": "Annuler",
+      "commonError": "Une erreur inconnue s'est produite."
+    }
+  },
+  "philips": {
+    "ipModal": {
+      "title": "Adresse IP",
+      "description": "Veuillez renseigner l'adresse IP de votre HUE bridge (https://discovery.meethue.com/):",
+      "connect": "Se connecter",
+      "cancel": "Annuler",
+      "commonError": "Une erreur inconnue s'est produite..",
+      "pressRequiredError": "Veuillez appuyer sur le bouton du bridge avant de se connecter."
+    },
+    "noRoom": "Aucune pièce paramétrée",
+    "room": {
+      "noLight": "Aucune lumière liée à cette pièce"
+    }
+  },
+  "config": {
+    "title": "Configuration",
+    "language": {
+      "title": "Langue:"
+    }
+  }
+}

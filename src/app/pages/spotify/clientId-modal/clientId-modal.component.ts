@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -13,7 +14,7 @@ import { distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
 import {
   ConfigsActions,
   ConfigsState,
-  DestroyableComponent,
+  ModalAbstract,
   SpotifyService
 } from '../../../shared';
 
@@ -23,9 +24,10 @@ import {
   styleUrls: ['./clientId-modal.component.scss'],
 })
 export class SpotifyClientIdModalComponent
-  extends DestroyableComponent
+  extends ModalAbstract
   implements OnInit, AfterViewInit {
-  @ViewChild('clientIdModal') clientIdModal?: ElementRef;
+  @ViewChild('clientIdModal')
+  protected modal?: ElementRef;
 
   @Select(ConfigsState.getState(['spotify', 'tmpClientId']))
   tmpClientId$!: Observable<string>;
@@ -37,23 +39,26 @@ export class SpotifyClientIdModalComponent
   isInError: boolean = false;
 
   constructor(
-    private readonly modalService: NgbModal,
+    protected readonly modalService: NgbModal,
     private readonly spotifyService: SpotifyService,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly router: Router
   ) {
-    super();
+    super(modalService);
   }
 
   ngOnInit(): void {
-    this.tmpClientId$.pipe(
-      distinctUntilChanged(),
-      takeUntil(this.destroy$),
-      tap((tmpClientId) => (this.inputClientId = tmpClientId))
-    ).subscribe();
+    this.tmpClientId$
+      .pipe(
+        distinctUntilChanged(),
+        takeUntil(this.destroy$),
+        tap((tmpClientId) => (this.inputClientId = tmpClientId))
+      )
+      .subscribe();
   }
 
   ngAfterViewInit(): void {
-    this.modalService.open(this.clientIdModal, { centered: true });
+    this.openModal();
   }
 
   connect(): void {
@@ -65,7 +70,12 @@ export class SpotifyClientIdModalComponent
     }
   }
 
+  cancel(): void {
+    this.closeModal();
+    this.router.navigate(['/home']);
+  }
+
   OnDestroy(): void {
-    this.modalService.dismissAll();
+    this.closeModal();
   }
 }

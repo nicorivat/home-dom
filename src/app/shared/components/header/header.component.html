@@ -16,7 +16,12 @@
       >
         {{ translatePath + currentRoute | translate }}
       </p>
-      <div fxFlex="20%"></div>
+      <div fxFlex="20%" fxLayout="row" fxLayoutAlign="end center" (click)="showConfigModal()">
+        <fa-icon
+          [icon]="configIcon"
+          size="lg"
+        ></fa-icon>
+      </div>
     </div>
   </div>
 </div>

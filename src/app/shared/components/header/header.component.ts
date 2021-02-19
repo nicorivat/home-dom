@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import {
   faChevronLeft,
+  faCog,
   IconDefinition
 } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngxs/store';
 import { takeUntil, tap } from 'rxjs/operators';
 import { DestroyableComponent } from '../../abstracts';
+import { ConfigsActions } from '../../store';
 
 @Component({
   selector: 'hd-header',
@@ -16,12 +19,14 @@ export class HeaderComponent extends DestroyableComponent implements OnInit {
   translatePath = 'header.';
   currentRoute!: string;
   backIcon: IconDefinition = faChevronLeft;
+  configIcon: IconDefinition = faCog;
 
   private urlWithoutParams?: string[];
 
   constructor(
     private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly store: Store
   ) {
     super();
   }
@@ -54,5 +59,9 @@ export class HeaderComponent extends DestroyableComponent implements OnInit {
         { relativeTo: this.activatedRoute }
       );
     else this.router.navigate(['/home']);
+  }
+
+  showConfigModal(): void {
+    this.store.dispatch(new ConfigsActions.ShowConfigModal());
   }
 }

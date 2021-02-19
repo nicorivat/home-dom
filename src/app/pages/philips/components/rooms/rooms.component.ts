@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -17,6 +17,9 @@ import {
 export class RoomsComponent extends DestroyableComponent implements OnInit {
   @Select(PhilipsState.getState(['rooms']))
   rooms$!: Observable<PhilipsRoom[]>;
+
+  @Input()
+  translatePath!: string;
 
   private roomsInterval!: NodeJS.Timeout;
 

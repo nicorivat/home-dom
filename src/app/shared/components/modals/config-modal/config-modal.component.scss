@@ -1,0 +1,14 @@
+.modal-header {
+  position: relative;
+  .close-btn {
+    position: absolute;
+    right: 24px;
+  }
+}
+
+.flag {
+  opacity: 0.5;
+  &.selected {
+    opacity: 1;
+  }
+}

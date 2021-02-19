@@ -21,6 +21,8 @@ export class RoomPageComponent extends DestroyableComponent implements OnInit {
   @Select(PhilipsState.getState(['lights']))
   lights$!: Observable<PhilipsLight[]>;
 
+  translatePath: string = 'philips.room.';
+
   private lightsInterval!: NodeJS.Timeout;
 
   constructor(private readonly store: Store) {
